@@ -1,0 +1,18 @@
+---
+# name of the location
+hostname: "docker"
+
+# in a multi network interface specify the ip address to send to AIO, comment out to send the default ip discovered by Ansible
+# location_ip: "192.168.56.110"
+
+# address of the ALM instance to register this location with
+alm: "192.168.56.100"
+
+# address of the ARM instance 
+arm: "192.168.56.100:31080"
+
+# list of comma seperated insecure registries 
+# registries: "lifecyclemanager.com:5001,lifecyclemanager.com:5002"
+
+# Uncomment the following to variable to install portainer
+# portainer: "True"

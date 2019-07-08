@@ -1,0 +1,43 @@
+- name: install base dependencies
+  apt: 
+    name: ['apt-transport-https','ca-certificates','git','curl','software-properties-common','htop', 'bridge-utils'] 
+    state: present
+  
+- name: install docker pip3
+  command: pip install docker
+
+- name: install docker compose pip
+  command: pip install docker-compose
+
+- name: Create docker directory
+  file:
+    path: /etc/docker
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Add Docker GPG key
+  apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+
+- name: Add Docker APT repository
+  raw: add-apt-repository "deb https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
+
+- name: Install Docker
+  raw: apt-get update && apt-get install -y docker-ce
+
+- name: Write docker daemon config
+  template:
+    src: ../templates/daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0775
+  when: registries is defined 
+
+- name: Restart docker daemon
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: docker
+  when: registries is defined

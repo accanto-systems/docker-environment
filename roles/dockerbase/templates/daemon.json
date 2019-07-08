@@ -1,0 +1,4 @@
+{
+"exec-opts": ["native.cgroupdriver=cgroupfs"],
+"insecure-registries" : [{% for reg in registries.split(',') %} "{{ reg }}"{% if loop.index != loop.length %},{% endif %}{% endfor %}]
+}
