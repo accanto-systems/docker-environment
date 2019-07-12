@@ -2,6 +2,12 @@
   apt: 
     name: ['apt-transport-https','ca-certificates','git','curl','software-properties-common','htop', 'bridge-utils'] 
     state: present
+
+- name: Update apt cache
+  raw: apt-get -y update
+
+- name: If needed, install Python
+  raw: apt-get -y install python python-pip  
   
 - name: install docker pip3
   command: pip install docker
